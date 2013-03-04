@@ -81,8 +81,7 @@ public class User extends Model {
     }
 
     public byte[] hashPassword( String newPassword )
-    {
-/*        
+    {        
         _logger.debug( "Hashing Password" );
         MessageDigest md = null;
         try {
@@ -104,8 +103,6 @@ public class User extends Model {
         md.update( newPassword.getBytes() );
 
         return md.digest();
-*/
-        return new byte[] { 0x00 };        
     }
 
     // Implementation of the find helper to initiate queries
