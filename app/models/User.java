@@ -14,6 +14,30 @@ import play.db.ebean.*;
 import play.data.validation.Constraints.*;
 
 public class User extends Model {
+
+    public static final String COMPANY_TYPE_GARAGE = "GARAGE";
+    public static final String COMPANY_TYPE_RESIDENCE = "RESIDENCE";
+
+    private byte[] salt;
+    private byte[] passwordHash;
+
+    public String name;
+
+    @Id   
+    @Required
+    @Email
+    public String email;
+    
+    @Required
+    @MinLength(value = 6)
+    public String password;
+
+    public String companyName;
+
+    public String companyType;     // Must be one of the constants outlined above
+    
+    private static Logger _logger = LoggerFactory.getLogger("models.Users");    
+
    
     public interface All {}
     public interface Step1{}    
@@ -23,18 +47,22 @@ public class User extends Model {
     @MinLength(value = 4, groups = {All.class, Step1.class})
     public String username;
     
-    @Required(groups = {All.class, Step1.class})
-    @Email(groups = {All.class, Step1.class})
-    public String email;
-    
-    @Required(groups = {All.class, Step1.class})
-    @MinLength(value = 6, groups = {All.class, Step1.class})
-    public String password;
-
     @Valid
     public Profile profile;
     
-    public User() {}
+    public User() {
+        // Establish the salt for this user.
+        SecureRandom random = new SecureRandom();
+        salt = random.generateSeed( 128 );
+    }
+
+    public User(String email, String password, String name, String companyName, String companyType) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.companyName = companyName;
+        this.companyType = companyType;
+    }
     
     public User(String username, String email, String password, Profile profile) {
         this.username = username;
@@ -65,7 +93,6 @@ public class User extends Model {
 
     public byte[] hashPassword( String newPassword )
     {
-/*        
         _logger.debug( "Hashing Password" );
         MessageDigest md = null;
         try {
@@ -87,8 +114,6 @@ public class User extends Model {
         md.update( newPassword.getBytes() );
 
         return md.digest();
-*/
-        return new byte[] { 0x00 };        
     }
 
     // Implementation of the find helper to initiate queries
@@ -104,8 +129,7 @@ public class User extends Model {
     public boolean checkPassword( String password ) 
     {
         byte[] newPassword = hashPassword( password );
-        //return Arrays.equals( newPassword, passwordHash );
-        return false;
+        return Arrays.equals( newPassword, passwordHash );
     }
 
 
