@@ -24,7 +24,19 @@ public class User extends Model {
 
     public String name;
 
-   
+    @Id   
+    @Required
+    @Email
+    public String email;
+    
+    @Required
+    @MinLength(value = 6)
+    public String password;
+
+    public String companyName;
+
+    public String companyType;     // Must be one of the constants outlined above
+
     public interface All {}
     public interface Step1{}    
 	public interface Step2{}    
