@@ -16,6 +16,15 @@ import play.data.validation.Constraints.*;
 @Entity
 public class User extends Model {
    
+    public static final String COMPANY_TYPE_GARAGE = "GARAGE";
+    public static final String COMPANY_TYPE_RESIDENCE = "RESIDENCE";
+
+    private byte[] salt;
+    private byte[] passwordHash;
+
+    public String name;
+
+   
     public interface All {}
     public interface Step1{}    
 	public interface Step2{}    
