@@ -53,8 +53,10 @@ public class User extends Model {
     public User() 
     {
         // Establish the salt for this user.
+        System.out.println( "Creating a new User" );
         SecureRandom random = new SecureRandom();
         salt = random.generateSeed( 128 );        
+        System.out.println( "Done creating a user" );
     }
     
     public User(String email, String password, String name, String companyName, String companyType) {
