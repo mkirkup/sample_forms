@@ -47,14 +47,17 @@ public class User extends Model {
     
     @Valid
     public Profile profile;
+
+    private static Logger _logger = LoggerFactory.getLogger("models.Users");    
     
     public User() {}
     
-    public User(String username, String email, String password, Profile profile) {
-        this.username = username;
+    public User(String email, String password, String name, String companyName, String companyType) {
         this.email = email;
         this.password = password;
-        this.profile = profile;
+        this.name = name;
+        this.companyName = companyName;
+        this.companyType = companyType;
     }
     
     public static class Profile {
