@@ -32,7 +32,7 @@ public class Application extends Controller {
     private static Logger _logger = LoggerFactory.getLogger("controllers.Application");    
   
     public static Result index() {
-        return ok(index.render());
+        return ok(index.render(loginForm));
     }
 
     /**
@@ -49,8 +49,7 @@ public class Application extends Controller {
 			  		_logger.debug( "Key: " + key + " Message: " + error.message() );
 				}
 		  	}
-		  	return TODO;
-            //return badRequest(index.render(filledForm));
+            return badRequest(index.render(filledForm));
 		}
 
 		// Capture and check email address
@@ -58,8 +57,7 @@ public class Application extends Controller {
     	if( email == null || email.length() == 0 ) {
     		_logger.debug( "Login failed - email address was null or empty" );
     		filledForm.reject( "email", "Invalid email address");
-			return TODO;
-			//return badRequest(index.render(filledForm));
+			return badRequest(index.render(filledForm));
     	}
     	_logger.debug( "Login - Email: " + email );
 
@@ -68,8 +66,7 @@ public class Application extends Controller {
 		if( existingUser == null ) { 
     		_logger.debug( "Login failed - email address was not signed up" );
     		filledForm.reject( "email", "Invalid email address");
-			return TODO;
-			//return badRequest(index.render(filledForm));
+			return badRequest(index.render(filledForm));
 		}
 		_logger.debug( "Existing User? " + (existingUser != null ? "Yes" : "No" ));
 
@@ -78,8 +75,7 @@ public class Application extends Controller {
         if( password == null || !existingUser.checkPassword( password )) {
         	_logger.debug( "Login failed - invalid password" );
             filledForm.reject("password", "Invalid password");
-            return TODO;
-            //return badRequest(index.render(filledForm));
+            return badRequest(index.render(filledForm));
         }
         
         // User login was successfully.  
@@ -97,7 +93,5 @@ public class Application extends Controller {
             //return redirect( routes.Status.blank());
             return TODO;
     	}
-    }
-
-  
+    } 
 }

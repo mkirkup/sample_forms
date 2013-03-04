@@ -1,23 +1,37 @@
-@main(Html("Form samples")) {
+@(loginForm: Form[User])
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@title = {VeloCity Status}
+
+@main(title, nav = "login") {
     
-    <h2>Sign up form</h2>
-    
-    <p>
-        Demonstrate a classical sign up form.
-    </p>
-    
-    <p>
-        <a class="btn" href="@routes.SignUp.blank">View sample »</a>
-    </p>
-    
-    <h2>Contact form</h2>
-    
-    <p>
-        Demonstrate a contact manager that allow to add complex contact informations.
-    </p>
-    
-    <p>
-        <a class="btn" href="@routes.Contacts.blank">View sample »</a>
-    </p>
-    
+    @helper.form(action = routes.Application.submit) {
+        
+        <fieldset>
+            
+            <img src="@routes.Assets.at("images/velocitylogo.png")" height="53" width="576">
+            <br></br>
+            
+            @inputText(
+                loginForm("email"), 
+                '_label -> "Email",
+                '_help -> "Enter your email", 
+                '_error -> loginForm.globalError
+            )
+                        
+            @inputPassword(
+                loginForm("password"), 
+                '_help -> "Enter your password",
+                '_label -> "Password"
+            )
+                        
+        </fieldset>
+
+        <div class="actions">
+            <input type="submit" class="btn primary" value="Login">
+            <a class="btn" href="@routes.SignUp.blank">Create Account</a>
+        </div>
+    }
 }
