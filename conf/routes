@@ -4,6 +4,7 @@
 
 # Home page
 GET     /                           controllers.Application.index()
+POST	/							controllers.Application.submit()
 
 # Signup
 GET     /signup                     controllers.SignUp.blank()

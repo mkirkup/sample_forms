@@ -1,10 +1,19 @@
 package models;
 
+
+import java.security.*;
+import java.util.*;
+
+import javax.persistence.*;
 import javax.validation.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import play.db.ebean.*;
 import play.data.validation.Constraints.*;
 
-public class User {
+public class User extends Model {
    
     public interface All {}
     public interface Step1{}    
@@ -53,5 +62,57 @@ public class User {
         }
         
     }
+
+    public byte[] hashPassword( String newPassword )
+    {
+/*        
+        _logger.debug( "Hashing Password" );
+        MessageDigest md = null;
+        try {
+            md = MessageDigest.getInstance("SHA-512");
+        } catch( NoSuchAlgorithmException e ) {
+            // Fall back to standard SHA if necessary
+            _logger.warn("SHA-512 digest is not available");
+            try {
+                md = MessageDigest.getInstance( "SHA" );
+            } catch( NoSuchAlgorithmException f ) {
+                _logger.error( "No Hash Digest avaialble!!!" );
+            }
+        }
+
+        md.update( this.salt );
+        md.update( this.email.getBytes() );
+        md.update( this.name.getBytes() );
+        md.update( this.companyName.getBytes() );
+        md.update( newPassword.getBytes() );
+
+        return md.digest();
+*/
+        return new byte[] { 0x00 };        
+    }
+
+    // Implementation of the find helper to initiate queries
+    public static Finder<String,User> find = new Finder(
+        String.class, User.class
+    );
+
+    public static List<User> all() 
+    {
+        return find.all();
+    }
+
+    public boolean checkPassword( String password ) 
+    {
+        byte[] newPassword = hashPassword( password );
+        //return Arrays.equals( newPassword, passwordHash );
+        return false;
+    }
+
+
+    public static User find( String email ) 
+    {
+        return find.byId( email );
+    }
+
     
 }
