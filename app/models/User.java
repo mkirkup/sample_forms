@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import play.db.ebean.*;
 import play.data.validation.Constraints.*;
 
+@Entity
 public class User extends Model {
    
     public interface All {}
