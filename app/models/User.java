@@ -50,7 +50,12 @@ public class User extends Model {
 
     private static Logger _logger = LoggerFactory.getLogger("models.Users");    
     
-    public User() {}
+    public User() 
+    {
+        // Establish the salt for this user.
+        SecureRandom random = new SecureRandom();
+        salt = random.generateSeed( 128 );        
+    }
     
     public User(String email, String password, String name, String companyName, String companyType) {
         this.email = email;
@@ -121,7 +126,6 @@ public class User extends Model {
         //return Arrays.equals( newPassword, passwordHash );
         return false;
     }
-
 
     public static User find( String email ) 
     {
