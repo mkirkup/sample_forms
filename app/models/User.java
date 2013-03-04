@@ -45,14 +45,6 @@ public class User extends Model {
     @MinLength(value = 4, groups = {All.class, Step1.class})
     public String username;
     
-    @Required(groups = {All.class, Step1.class})
-    @Email(groups = {All.class, Step1.class})
-    public String email;
-    
-    @Required(groups = {All.class, Step1.class})
-    @MinLength(value = 6, groups = {All.class, Step1.class})
-    public String password;
-
     @Valid
     public Profile profile;
     
